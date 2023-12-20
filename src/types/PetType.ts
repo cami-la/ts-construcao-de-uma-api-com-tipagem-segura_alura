@@ -1,6 +1,6 @@
 type PetType = {
   id: number
-  name: string
+  nome: string
   especie: string
   adotado: string
   idade: number
