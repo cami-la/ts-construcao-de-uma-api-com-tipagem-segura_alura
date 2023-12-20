@@ -1,13 +1,18 @@
 import {Request, Response} from 'express'
-import type TipoPet from '../types/PetType'
+import PetType from "../types/PetType";
+import SpeciesEnum from "../enum/SpeciesEnum";
 
-let pets: TipoPet[] = []
+let pets: PetType[] = []
 
 export default class PetController {
 
   createPet(req: Request, res: Response) {
-    const {id, adotado, especie, idade, nome} = req.body as TipoPet
-    const newPet: TipoPet = {id, adotado, especie, idade, nome}
+    const {id, nome, especie, adotado, idade} = <PetType>req.body
+    if (!Object.values(SpeciesEnum).includes(especie)) {
+      return res.status(400).json({message: 'Invalid especie'})
+    }
+
+    const newPet: PetType = {id, nome, especie, adotado, idade}
     pets.push(newPet)
     return res.status(201).json(newPet)
   }
@@ -18,12 +23,12 @@ export default class PetController {
 
   updatePet(req: Request, res: Response) {
     const {id} = req.params
-    const {adotado, especie, idade, nome} = req.body as TipoPet
+    const {nome, especie, adotado, idade} = <PetType>req.body
     const petIndex = pets.findIndex(pet => pet.id === Number(id))
     if (petIndex === -1) {
       return res.status(404).json({message: 'Pet not found'})
     }
-    pets[petIndex] = {id: Number(id), adotado, especie, idade, nome}
+    pets[petIndex] = {id: Number(id), nome, especie, adotado, idade}
     return res.status(200).json(pets[petIndex])
   }
 

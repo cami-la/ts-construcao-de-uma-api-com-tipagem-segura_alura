@@ -1,7 +1,9 @@
+import SpeciesEnum from "../enum/SpeciesEnum";
+
 type PetType = {
   id: number
   nome: string
-  especie: string
+  especie: SpeciesEnum
   adotado: string
   idade: number
 }
