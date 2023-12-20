@@ -5,7 +5,7 @@ type PetType = {
   nome: string
   especie: SpeciesEnum
   adotado: string
-  idade: number
+  dataDeNascimento: Date
 }
 
 export default PetType
