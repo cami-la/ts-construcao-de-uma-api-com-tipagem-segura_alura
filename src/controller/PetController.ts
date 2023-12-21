@@ -1,6 +1,8 @@
 import {Request, Response} from 'express'
 import PetType from "../types/PetType";
 import SpeciesEnum from "../enum/SpeciesEnum";
+import PetRepository from "../repositories/PetRepository";
+import PetEntity from "../entities/PetEntity";
 
 let pets: PetType[] = []
 
@@ -10,20 +12,28 @@ function geraId(): number {
   id = id + 1;
   return id;
 }
+
 export default class PetController {
+  constructor(private readonly petRepository: PetRepository) {
+  }
 
   createPet(req: Request, res: Response) {
-    const { nome, especie, adotado, dataDeNascimento} = <PetType>req.body
+    const {nome, especie, adotado, dataDeNascimento} = <PetEntity>req.body
     if (!Object.values(SpeciesEnum).includes(especie)) {
       return res.status(400).json({message: 'Invalid especie'})
     }
-
-    const newPet: PetType = {id: geraId(), nome, especie, adotado, dataDeNascimento}
-    pets.push(newPet)
+    const newPet = new PetEntity()
+    newPet.id = geraId()
+    newPet.nome = nome
+    newPet.especie = especie
+    newPet.adotado = adotado
+    newPet.dataDeNascimento = dataDeNascimento
+    this.petRepository.createPet(newPet)
     return res.status(201).json(newPet)
   }
 
-  listPets(req: Request, res: Response) {
+  async listPets(req: Request, res: Response) {
+    const pets = await this.petRepository.listPets()
     return res.status(200).json(pets)
   }
 
