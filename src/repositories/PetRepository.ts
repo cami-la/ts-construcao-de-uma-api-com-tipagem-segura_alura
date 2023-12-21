@@ -1,24 +1,28 @@
 import PetEntity from "../entities/PetEntity";
 import IPetRepository from "./interfaces/IPetRepository";
+import {Repository} from "typeorm";
 
 export default class PetRepository implements IPetRepository {
-  constructor(private readonly repository: IPetRepository) {
+  private repository: Repository<PetEntity>;
+
+  constructor(repository: Repository<PetEntity>) {
+    this.repository = repository;
   }
 
   createPet(pet: PetEntity): void {
-    this.repository.createPet(pet);
+    this.repository.save(pet);
   }
 
   listPets(): PetEntity[] {
-    return this.repository.listPets()
+    throw new Error("Method not implemented.");
   }
 
   updatePet(id: number, pet: PetEntity): void {
-    this.repository.updatePet(id, pet)
+    throw new Error("Method not implemented.");
   }
 
   deletePet(id: number): void {
-    this.repository.deletePet(id)
+    throw new Error("Method not implemented.");
   }
 
 }
