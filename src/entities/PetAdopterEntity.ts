@@ -1,4 +1,5 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {AddressEntity} from "./AddressEntity";
 
 @Entity()
 export default class PetAdopterEntity {
@@ -12,10 +13,15 @@ export default class PetAdopterEntity {
   celular: string
   @Column({ nullable: true })
   foto?: string
-  @Column({ nullable: true })
-  endereco?: string
+  @OneToOne(() => AddressEntity, {
+    nullable: true,
+    cascade: true,
+    eager: true
+  })
+  @JoinColumn()
+  endereco?: AddressEntity
 
-  constructor(nome: string, senha: string, celular: string, foto?: string, endereco?: string) {
+  constructor(nome: string, senha: string, celular: string, foto?: string, endereco?: AddressEntity) {
     this.nome = nome
     this.senha = senha
     this.celular = celular
