@@ -11,4 +11,6 @@ const petAdopterRepository = new PetAdopterRepository(AppDataSource.getRepositor
 const petAdopterController = new PetAdopterController(petAdopterRepository)
 
 router.post('/', (req: Request, res:Response) => petAdopterController.createPetAdopter(req, res))
+router.patch('/:id', (req: Request, res:Response) => petAdopterController.updateAddressPetAdopter(req, res))
+
 export default router

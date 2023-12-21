@@ -446,7 +446,7 @@
     <routine id="176" parent="1" name="fts5"/>
     <schema id="177" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2023-12-21.12:56:32</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2023-12-21.16:57:46</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="178" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1468,101 +1468,136 @@
     <argument id="517" parent="176">
       <Position>1</Position>
     </argument>
-    <table id="518" parent="177" name="pet_adopter_entity"/>
-    <table id="519" parent="177" name="pet_entity"/>
-    <table id="520" parent="177" name="sqlite_master">
+    <table id="518" parent="177" name="address_entity"/>
+    <table id="519" parent="177" name="pet_adopter_entity"/>
+    <table id="520" parent="177" name="pet_entity"/>
+    <table id="521" parent="177" name="sqlite_master">
       <System>1</System>
     </table>
-    <table id="521" parent="177" name="sqlite_sequence">
+    <table id="522" parent="177" name="sqlite_sequence">
       <System>1</System>
     </table>
-    <column id="522" parent="518" name="id">
+    <column id="523" parent="518" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="523" parent="518" name="nome">
+    <column id="524" parent="518" name="cidade">
       <DasType>varchar|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="524" parent="518" name="senha">
+    <column id="525" parent="518" name="estado">
       <DasType>varchar|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="525" parent="518" name="celular">
+    <key id="526" parent="518">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="527" parent="519" name="id">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="528" parent="519" name="nome">
+      <DasType>varchar|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="529" parent="519" name="senha">
+      <DasType>varchar|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="530" parent="519" name="celular">
       <DasType>varchar|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="526" parent="518" name="foto">
+    <column id="531" parent="519" name="foto">
       <DasType>varchar|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="527" parent="518" name="endereco">
-      <DasType>varchar|0s</DasType>
+    <column id="532" parent="519" name="enderecoId">
+      <DasType>integer|0s</DasType>
       <Position>6</Position>
     </column>
-    <key id="528" parent="518">
+    <foreign-key id="533" parent="519" name="FK_b8421dd25ba547b5b1ee637e47c">
+      <ColNames>enderecoId</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>address_entity</RefTableName>
+    </foreign-key>
+    <index id="534" parent="519" name="sqlite_autoindex_pet_adopter_entity_1">
+      <ColNames>enderecoId</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="535" parent="519">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="529" parent="519" name="id">
+    <key id="536" parent="519" name="UQ_4a897c85855f87c04719a2b40cc">
+      <ColNames>enderecoId</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_pet_adopter_entity_1</UnderlyingIndexName>
+    </key>
+    <column id="537" parent="520" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="530" parent="519" name="nome">
+    <column id="538" parent="520" name="nome">
       <DasType>varchar|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="531" parent="519" name="especie">
+    <column id="539" parent="520" name="especie">
       <DasType>varchar|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="532" parent="519" name="dataDeNascimento">
+    <column id="540" parent="520" name="dataDeNascimento">
       <DasType>datetime|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="533" parent="519" name="adotado">
+    <column id="541" parent="520" name="adotado">
       <DasType>boolean|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <key id="534" parent="519">
+    <key id="542" parent="520">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="535" parent="520" name="type">
+    <column id="543" parent="521" name="type">
       <DasType>TEXT|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="536" parent="520" name="name">
+    <column id="544" parent="521" name="name">
       <DasType>TEXT|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="537" parent="520" name="tbl_name">
+    <column id="545" parent="521" name="tbl_name">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="538" parent="520" name="rootpage">
+    <column id="546" parent="521" name="rootpage">
       <DasType>INT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="539" parent="520" name="sql">
+    <column id="547" parent="521" name="sql">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="540" parent="521" name="name">
+    <column id="548" parent="522" name="name">
       <Position>1</Position>
     </column>
-    <column id="541" parent="521" name="seq">
+    <column id="549" parent="522" name="seq">
       <Position>2</Position>
     </column>
   </database-model>
