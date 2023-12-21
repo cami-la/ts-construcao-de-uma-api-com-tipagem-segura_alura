@@ -3,18 +3,15 @@ import IPetRepository from "./interfaces/IPetRepository";
 import {Repository} from "typeorm";
 
 export default class PetRepository implements IPetRepository {
-  private repository: Repository<PetEntity>;
-
-  constructor(repository: Repository<PetEntity>) {
-    this.repository = repository;
+  constructor(private readonly repository: Repository<PetEntity>) {
   }
 
   async createPet(pet: PetEntity): Promise<void> {
-    await this.repository.save(pet);
+    await this.repository.save(pet)
   }
 
   async listPets(): Promise<PetEntity[]> {
-    return await this.repository.find();
+    return await this.repository.find()
   }
 
   async updatePet(id: number, pet: PetEntity): Promise<{ success: boolean, message?: string }> {
@@ -32,7 +29,7 @@ export default class PetRepository implements IPetRepository {
     }
   }
 
-  async deletePet(id: number): Promise<{ success: boolean, message?: string }>  {
+  async deletePet(id: number): Promise<{ success: boolean, message?: string }> {
     try {
       const petToRemove: PetEntity | null = await this.repository.findOne({where: {id}})
       if (!petToRemove) {
@@ -44,5 +41,4 @@ export default class PetRepository implements IPetRepository {
       return {success: false, message: 'Error deleting pet'}
     }
   }
-
 }
