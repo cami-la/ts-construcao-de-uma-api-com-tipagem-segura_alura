@@ -18,7 +18,7 @@ export default class PetController {
   }
 
   async createPet(req: Request, res: Response) {
-    const {nome, especie, adotado, dataDeNascimento} = <PetEntity>req.body
+    const {nome, especie, adopted, dataDeNascimento} = <PetEntity>req.body
     if (!Object.values(SpeciesEnum).includes(especie)) {
       return res.status(400).json({message: 'Invalid especie'})
     }
@@ -26,7 +26,7 @@ export default class PetController {
       nome,
       especie,
       dataDeNascimento,
-      adotado
+      adopted
     )
     await this.petRepository.createPet(newPet)
     return res.status(201).json(newPet)
@@ -49,6 +49,15 @@ export default class PetController {
   async deletePet(req: Request, res: Response) {
     const {id} = req.params
     const {success, message} = await this.petRepository.deletePet(Number(id));
+    if (!success) {
+      return res.status(400).json({message})
+    }
+    return res.sendStatus(204)
+  }
+
+  async adoptPet(req: Request, res: Response) {
+    const {petId, petAdopterId} = req.params
+    const {success, message} = await this.petRepository.adoptPet(Number(petId), Number(petAdopterId));
     if (!success) {
       return res.status(400).json({message})
     }

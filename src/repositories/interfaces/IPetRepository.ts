@@ -8,4 +8,6 @@ export default interface IPetRepository {
   updatePet(id: number, pet: PetEntity): Promise<{ success: boolean, message?: string }> | void
 
   deletePet(id: number): Promise<{ success: boolean, message?: string }> | void
+
+  adoptPet(petId: number, adopterPetId: number): Promise<{ success: boolean, message?: string }> | void
 }
