@@ -2,6 +2,7 @@ import PetEntity from "../entities/PetEntity";
 import IPetRepository from "./interfaces/IPetRepository";
 import {Repository} from "typeorm";
 import PetAdopterEntity from "../entities/PetAdopterEntity";
+import PortEnum from "../enum/PortEnum";
 
 export default class PetRepository implements IPetRepository {
   constructor(private readonly petEntityRepository: Repository<PetEntity>, private readonly petAdopterRepository: Repository<PetAdopterEntity>) {
@@ -59,5 +60,15 @@ export default class PetRepository implements IPetRepository {
 
     await this.petEntityRepository.save(petToAdopt)
     return {success: true}
+  }
+
+  async findPetByPort(port: PortEnum): Promise<PetEntity[]> {
+    const pets = await this.petEntityRepository.find({where: {port}})
+    return pets
+  }
+
+  async findPetByGenericField<T extends keyof PetEntity>(field: T, value: PetEntity[T]): Promise<PetEntity[]> {
+    const pets = await this.petEntityRepository.find({where: {[field]: value}})
+    return pets
   }
 }

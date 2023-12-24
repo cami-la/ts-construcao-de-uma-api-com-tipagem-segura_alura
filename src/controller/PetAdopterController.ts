@@ -32,4 +32,6 @@ export default class PetAdopterController {
     res.sendStatus(200)
   }
 
+
+
 }
