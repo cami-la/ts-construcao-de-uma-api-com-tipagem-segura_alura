@@ -5,7 +5,9 @@ export default interface IPetRepository {
 
   listPets(): Array<PetEntity[]> | Promise<PetEntity[]>
 
-  updatePet(id: number, pet: PetEntity): void
+  updatePet(id: number, pet: PetEntity): Promise<{ success: boolean, message?: string }> | void
 
-  deletePet(id: number): void
+  deletePet(id: number): Promise<{ success: boolean, message?: string }> | void
+
+  adoptPet(petId: number, adopterPetId: number): Promise<{ success: boolean, message?: string }> | void
 }

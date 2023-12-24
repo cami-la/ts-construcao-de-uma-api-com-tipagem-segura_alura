@@ -17,18 +17,18 @@ export default class PetController {
   constructor(private readonly petRepository: PetRepository) {
   }
 
-  createPet(req: Request, res: Response) {
-    const {nome, especie, adotado, dataDeNascimento} = <PetEntity>req.body
+  async createPet(req: Request, res: Response) {
+    const {nome, especie, adopted, dataDeNascimento} = <PetEntity>req.body
     if (!Object.values(SpeciesEnum).includes(especie)) {
       return res.status(400).json({message: 'Invalid especie'})
     }
-    const newPet = new PetEntity()
-    newPet.id = geraId()
-    newPet.nome = nome
-    newPet.especie = especie
-    newPet.adotado = adotado
-    newPet.dataDeNascimento = dataDeNascimento
-    this.petRepository.createPet(newPet)
+    const newPet = new PetEntity(
+      nome,
+      especie,
+      dataDeNascimento,
+      adopted
+    )
+    await this.petRepository.createPet(newPet)
     return res.status(201).json(newPet)
   }
 
@@ -37,24 +37,30 @@ export default class PetController {
     return res.status(200).json(pets)
   }
 
-  updatePet(req: Request, res: Response) {
+  async updatePet(req: Request, res: Response) {
     const {id} = req.params
-    const {nome, especie, adotado, dataDeNascimento} = <PetType>req.body
-    const petIndex = pets.findIndex(pet => pet.id === Number(id))
-    if (petIndex === -1) {
-      return res.status(404).json({message: 'Pet not found'})
+    const {success, message} = await this.petRepository.updatePet(Number(id), <PetEntity>req.body)
+    if (!success) {
+      return res.status(400).json({message})
     }
-    pets[petIndex] = {id: Number(id), nome, especie, adotado, dataDeNascimento}
-    return res.status(200).json(pets[petIndex])
+    return res.sendStatus(204)
   }
 
-  deletePet(req: Request, res: Response) {
+  async deletePet(req: Request, res: Response) {
     const {id} = req.params
-    const petIndex = pets.findIndex(pet => pet.id === Number(id))
-    if (petIndex === -1) {
-      return res.status(404).json({message: 'Pet not found'})
+    const {success, message} = await this.petRepository.deletePet(Number(id));
+    if (!success) {
+      return res.status(400).json({message})
     }
-    pets.splice(petIndex, 1)
-    return res.status(204).send()
+    return res.sendStatus(204)
+  }
+
+  async adoptPet(req: Request, res: Response) {
+    const {petId, petAdopterId} = req.params
+    const {success, message} = await this.petRepository.adoptPet(Number(petId), Number(petAdopterId));
+    if (!success) {
+      return res.status(400).json({message})
+    }
+    return res.sendStatus(204)
   }
 }
