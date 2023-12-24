@@ -66,4 +66,9 @@ export default class PetRepository implements IPetRepository {
     const pets = await this.petEntityRepository.find({where: {port}})
     return pets
   }
+
+  async findPetByGenericField<T extends keyof PetEntity>(field: T, value: PetEntity[T]): Promise<PetEntity[]> {
+    const pets = await this.petEntityRepository.find({where: {[field]: value}})
+    return pets
+  }
 }

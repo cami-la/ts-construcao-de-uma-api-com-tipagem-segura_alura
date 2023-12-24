@@ -13,4 +13,6 @@ export default interface IPetRepository {
   adoptPet(petId: number, adopterPetId: number): Promise<{ success: boolean, message?: string }> | void
 
   findPetByPort(port: PortEnum): Promise<PetEntity[]> | PetEntity[]
+
+  findPetByGenericField<T extends keyof PetEntity>(field: T, value: PetEntity[T]): Promise<PetEntity[]> | PetEntity[]
 }

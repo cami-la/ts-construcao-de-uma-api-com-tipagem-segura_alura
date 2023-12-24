@@ -76,4 +76,10 @@ export default class PetController {
     const pets = await this.petRepository.findPetByPort(port as PortEnum)
     return res.status(200).json(pets)
   }
+
+  async findPetByGenericField(req: Request, res: Response) {
+    const {field, value} = req.query
+    const pets = await this.petRepository.findPetByGenericField(field as keyof PetEntity, value as string)
+    return res.status(200).json(pets)
+  }
 }
