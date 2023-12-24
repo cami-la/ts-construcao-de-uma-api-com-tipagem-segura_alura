@@ -70,4 +70,10 @@ export default class PetController {
     }
     return res.sendStatus(204)
   }
+
+  async findPetByPort(req: Request, res: Response) {
+    const {port} = req.query
+    const pets = await this.petRepository.findPetByPort(port as PortEnum)
+    return res.status(200).json(pets)
+  }
 }
