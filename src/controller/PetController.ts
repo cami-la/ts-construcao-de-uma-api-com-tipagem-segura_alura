@@ -3,6 +3,7 @@ import PetType from "../types/PetType";
 import SpeciesEnum from "../enum/SpeciesEnum";
 import PetRepository from "../repositories/PetRepository";
 import PetEntity from "../entities/PetEntity";
+import PortEnum from "../enum/PortEnum";
 
 let pets: PetType[] = []
 
@@ -18,15 +19,21 @@ export default class PetController {
   }
 
   async createPet(req: Request, res: Response) {
-    const {nome, especie, adopted, dataDeNascimento} = <PetEntity>req.body
+    const {nome, especie, port, adopted, dataDeNascimento} = <PetEntity>req.body
     if (!Object.values(SpeciesEnum).includes(especie)) {
       return res.status(400).json({message: 'Invalid especie'})
     }
+
+    if (port && !(port in PortEnum)) {
+      return res.status(400).json({message: 'Invalid port'})
+    }
+
     const newPet = new PetEntity(
       nome,
       especie,
       dataDeNascimento,
-      adopted
+      adopted,
+      port
     )
     await this.petRepository.createPet(newPet)
     return res.status(201).json(newPet)
